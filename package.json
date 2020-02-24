@@ -1,0 +1,27 @@
+{
+  "name": "infinichat",
+  "version": "1.0.0",
+  "description": "Chat room application assignment for Comp3133 Full Stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GiuseppeRag/InfiniChat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GiuseppeRag/InfiniChat/issues"
+  },
+  "homepage": "https://github.com/GiuseppeRag/InfiniChat#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.2",
+    "nodemon": "^2.0.2",
+    "socket.io": "^2.3.0"
+  }
+}
