@@ -46,6 +46,7 @@ var io = require('socket.io')(server);
 
 io.on("connection", (socket) => {
   socket.username = "New User"  
+  socket.join('Room One')
   console.log(`${socket.username} has Joined InfiniChat`)
 
   socket.on("disconnect", () => {
@@ -53,11 +54,18 @@ io.on("connection", (socket) => {
   })
 
   socket.on("sendMessage", (data) => {
-      io.sockets.emit("sendMessage", {"username": socket.username, "message": data.message})
+      io.to(socket.currentRoom).emit("sendMessage", {"username": socket.username, "message": data.message})
   })
 
   socket.on("changeUsername", (userData) => {
       console.log(`${socket.username} has change their name to ${userData.username}`)
       socket.username = userData.username
+  })
+
+  socket.on("joinRoom", (roomObject) => {
+    socket.leave(socket.currentRoom)
+    socket.join(roomObject.room)
+    socket.currentRoom = roomObject.room
+    console.log(`${socket.username} has joined ${socket.currentRoom}`)
   })
 })
