@@ -46,7 +46,8 @@ var io = require('socket.io')(server);
 
 io.on("connection", (socket) => {
   socket.username = "New User"  
-  socket.join('Room One')
+  socket.currentRoom = "Room One"
+  socket.join(socket.currentRoom)
   console.log(`${socket.username} has Joined InfiniChat`)
 
   socket.on("disconnect", () => {
