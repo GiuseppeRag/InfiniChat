@@ -1,5 +1,5 @@
 $(() => {
-    var socket = io.connect('http://localhost:3000' || 'https://infinichat-application.herokuapp.com/')
+    var socket = io.connect('https://infinichat-application.herokuapp.com/')
 
     var changeUsername = $("#btnChangeUsername")
     var username = $('#txtUsername')
