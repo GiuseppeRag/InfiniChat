@@ -49,9 +49,12 @@ io.on("connection", (socket) => {
   socket.currentRoom = "Room One"
   socket.join(socket.currentRoom)
   console.log(`${socket.username} has Joined InfiniChat`)
+  io.sockets.emit('newUser', {username: socket.username})
+  socket.emit('welcome', {username: socket.username})
 
   socket.on("disconnect", () => {
     console.log(`${socket.username} has Left InfiniChat`)
+    io.sockets.emit('userLogout', {username: socket.username})
   })
 
   socket.on("sendMessage", (data) => {
@@ -60,6 +63,7 @@ io.on("connection", (socket) => {
 
   socket.on("changeUsername", (userData) => {
       console.log(`${socket.username} has change their name to ${userData.username}`)
+      io.sockets.emit('usernameChange', {oldUsername: socket.username, newUsername: userData.username})
       socket.username = userData.username
   })
 
