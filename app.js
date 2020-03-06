@@ -20,7 +20,11 @@ server = app.listen(process.env.PORT || 3000)
 var io = require('socket.io')(server);
 
 io.on("connection", (socket) => {
+<<<<<<< HEAD
   socket.username = `User${Math.floor(Math.random() * 10000)}` 
+=======
+  socket.username = "New User"
+>>>>>>> d0d87ec756ebfb0e3b0d2bbb45e4b15ef419a1a5
   socket.currentRoom = "Room One"
   socket.join(socket.currentRoom)
   console.log(`${socket.username} has Joined InfiniChat`)
