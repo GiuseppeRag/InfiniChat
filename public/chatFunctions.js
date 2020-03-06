@@ -1,20 +1,21 @@
 $(() => {
-    var socket = io.connect('https://infinichat-application.herokuapp.com/')
-    //var socket = io.connect('http://localhost:3000/')
+    //let socket = io.connect('https://infinichat-application.herokuapp.com/')
+    let socket = io.connect('http://localhost:3000/')
+    let socketUsername
 
-    var changeUsername = $("#btnChangeUsername")
-    var username = $('#txtUsername')
-    var message = $('#txtMessage')
-    var sendMessage = $("#btnSendMessage")
-    var chatroom = $('#chatroom')
-    var roomOne = $('#roomOne')
-    var roomTwo = $('#roomTwo')
-    var roomThree = $('#roomThree')
-    var roomFour = $('#roomFour')
-    var roomMessage = $('#roomMessage')
-    var newUserMessage = $('#newUserMessage')
+    let changeUsername = $("#btnChangeUsername")
+    let username = $('#txtUsername')
+    let message = $('#txtMessage')
+    let sendMessage = $("#btnSendMessage")
+    let chatroom = $('#chatroom')
+    let roomOne = $('#roomOne')
+    let roomTwo = $('#roomTwo')
+    let roomThree = $('#roomThree')
+    let roomFour = $('#roomFour')
+    let toastArea = $('#toastArea')
 
     changeUsername.click(() => {
+        socketUsername = username.val()
         socket.emit('changeUsername', {"username": username.val()})
     })
 
@@ -28,53 +29,79 @@ $(() => {
     })
 
     socket.on('welcome', (user) => {
-        displayMessage('Welcome to InfiniChat! You are currently logged in as ' + user.username)
+        socketUsername = user.username
         username.val(user.username)
+        changeRoomButtonColors('green', 'white', 'white', 'white')
+        makeToastMessage('InfiniChat', 'Welcome To InfiniChat!', 'text-success')
     })
 
-    socket.on('newUser', (user) => {
-        userLog(user.username + ' has logged into InfiniChat')
+    socket.on('userLogin', (user) => {
+        if (user.username != socketUsername){
+            makeToastMessage(user.username, "has logged into InfiniChat", 'text-success')
+        }
     })
 
     socket.on('userLogout', (user) => {
-        userLog(user.username + ' has logged out of InfiniChat')
+        makeToastMessage(user.username, 'has logged out of InfiniChat', 'text-danger')
     })
 
-    socket.on('usernameChange', (user) => {
-        userLog(user.oldUsername + ' has changed their name to ' + user.newUsername)
+    socket.on('changeUsernameBroadcast', (user) => {
+        if (user.newUsername != socketUsername){
+            makeToastMessage(user.oldUsername, `has changed their name to ${user.newUsername}`)
+        }
+    })
+
+    socket.on('joinRoomBroadcast', (user) => {
+        if (user.username != socketUsername){
+            makeToastMessage(user.username, "has joined the room", 'text-success')
+        }
+    })
+
+    socket.on('leaveRoomBroadcast', (user) => {
+        if (user.username != socketUsername){
+            makeToastMessage(user.username, "has left the room", 'text-warning')
+        }
     })
 
     roomOne.click(() => {
         socket.emit('joinRoom', {"room": "Room One"})
-        displayMessage('You are currently in Room One')
+        changeRoomButtonColors('green', 'white', 'white', 'white')
     })
 
     roomTwo.click(() => {
         socket.emit('joinRoom', {"room": "Room Two"})
-        displayMessage('You are currently in Room Two')
+        changeRoomButtonColors('white', 'green', 'white', 'white')
     })
 
     roomThree.click(() => {
         socket.emit('joinRoom', {"room": "Room Three"})
-        displayMessage('You are currently in Room Three')
+        changeRoomButtonColors('white', 'white', 'green', 'white')
     })
 
     roomFour.click(() => {
         socket.emit('joinRoom', {"room": "Room Four"})
-        displayMessage('You are currently in Room Four')
+        changeRoomButtonColors('white', 'white', 'white', 'green')
     })
 
-    const displayMessage = (message) => {
-        roomMessage.stop()
-        roomMessage.fadeIn(250)
-        roomMessage.text(message).delay(3000)
-        roomMessage.fadeOut(500)
+    const changeRoomButtonColors = (one, two, three, four) => {
+        roomOne.css('background-color', one)
+        roomTwo.css('background-color', two)
+        roomThree.css('background-color', three)
+        roomFour.css('background-color', four)
     }
 
-    const userLog = (message) => {
-        newUserMessage.stop()
-        newUserMessage.fadeIn(250)
-        newUserMessage.text(message).delay(3000)
-        newUserMessage.fadeOut(500)
+    const makeToastMessage = (actor, message, color='') => {
+        toastArea.append(`
+            <div class="toast" style="width: 300px;" data-delay=2500>
+                <div class="toast-header">
+                    <Strong class="mr-auto ${color}" style="width: 260px;">${actor}</Strong>
+                    <button type="button" class="close mr-auto" data-dismiss="toast" style="float: right;">&times;</button>
+                </div>
+                <div class="toast-body ${color}">
+                    ${message}
+                </div>
+            </div>
+        `)
+        toastArea.children("div:last-child").toast('show')
     }
 })

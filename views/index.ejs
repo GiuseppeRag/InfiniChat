@@ -4,32 +4,50 @@
     <title>Socket.io</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="bs4.pop.css">
   </head>
-  <body>
-    
+  <body class="bg-info w-100 h-100">
+    <script src="chatFunctions.js"></script>
     <script>
-      $(document).ready(function() {
-        
+      $(document).ready(function(){
+        $('.toast').toast('show');
       });
     </script>
-    <script src="chatFunctions.js"></script>
     
-    <h1>InfiniChat</h1>
-    <div>
-      <button id="roomOne">Room One</button>
-      <button id="roomTwo">Room Two</button>
-      <button id="roomThree">Room Three</button>
-      <button id="roomFour">Room Four</button>
-      <br>
-      <p id="roomMessage"></p>
-      <p id="newUserMessage"></p>
+    <div id="title" class="text-center d-flex justify-content-center">
+      <h1 class="text-center text-light shadow p-3 border border-dark rounded w-25 bg-primary">InfiniChat</h1>
     </div>
-    <p>Username: <input id="txtUsername" type="text"/></p>
-    <button id="btnChangeUsername">Change Username</button>
-    <div id="chatroom">
-      
+    <div class="d-flex flex-row">
+      <button id="roomOne" class="w-25 h3 p-3">Room One</button>
+      <button id="roomTwo" class="w-25 h3 p-3">Room Two</button>
+      <button id="roomThree" class="w-25 h3 p-3">Room Three</button>
+      <button id="roomFour" class="w-25 h3 p-3">Room Four</button>
     </div>
-    <input id="txtMessage" placeholder="Input Message"/>
-    <button id="btnSendMessage">Send</button>
+    <p id="roomMessage"></p>
+    <p id="newUserMessage"></p>
+    </div>
+      <p>Username: <input id="txtUsername" type="text"/><button id="btnChangeUsername">Change Username</button></p>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div id="chatroom" class="bg-white border-dark rounded-top" style="width: 90%; height: 500px;">
+
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-center">
+      <button id="btnSendMessage" class="h5 rounded-bottom" style="width: 10%;">Send</button>
+      <input id="txtMessage" placeholder="Input Message" class="h5 rounded-bottom" style="width: 80%"/>
+    </div>
+
+    <div class="p-1" style="position: fixed;">
+      <div id="toastArea" style="position: fixed; top: 0; right: 0;">
+        
+      </div>
+    </div>
   </body>
 </html>
