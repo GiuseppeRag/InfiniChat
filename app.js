@@ -57,11 +57,12 @@ var io = require('socket.io')(server);
 io.on("connection", (socket) => {
   //Default socket settings: connects User to Room One and randomly assigns a username. Triggers welcome event for user and userLogin for the other sockets
   socket.username = `User${Math.floor(Math.random() * 10000)}` 
-  socket.currentRoom = "Room One"
+  socket.currentRoom = "General"
   socket.join(socket.currentRoom)
   console.log(`${socket.username} has Joined InfiniChat`)
-  socket.emit('welcome', {username: socket.username})
-  io.sockets.emit('userLogin', {username: socket.username})
+  socket.emit('welcome', {username: socket.username, room: socket.currentRoom, id: socket.id})
+  io.sockets.emit('userLogin', {username: socket.username, id: socket.id})
+  io.to(socket.currentRoom).emit(`joinRoomBroadcast`, {username: socket.username, room: socket.currentRoom, id: socket.id})
 
   //socket disconnect event
   socket.on("disconnect", () => {
@@ -71,22 +72,22 @@ io.on("connection", (socket) => {
 
   //socket message event. broadcasts to room
   socket.on("sendMessage", (data) => {
-      io.to(socket.currentRoom).emit("sendMessage", {"username": socket.username, "message": data.message})
+      io.to(socket.currentRoom).emit("sendMessageBroadcast", {id: socket.id, username: socket.username, message: data.message})
   })
 
   //emits to all sockets that a User has changed their username
   socket.on("changeUsername", (userData) => {
       console.log(`${socket.username} has change their name to ${userData.username}`)
-      io.sockets.emit('changeUsernameBroadcast', {oldUsername: socket.username, newUsername: userData.username})
+      io.sockets.emit('changeUsernameBroadcast', {oldUsername: socket.username, newUsername: userData.username, id: socket.id})
       socket.username = userData.username
   })
 
   //user leaves their current room and joins a new one. All sockets in room are informed of join. All sockets in other room are informed of leaving
   socket.on("joinRoom", (roomObject) => {
     socket.leave(socket.currentRoom)
-    io.to(socket.currentRoom).emit(`leaveRoomBroadcast`, {username: socket.username})
+    io.to(socket.currentRoom).emit(`leaveRoomBroadcast`, {username: socket.username, id: socket.id})
     socket.join(roomObject.room)
-    io.to(roomObject.room).emit(`joinRoomBroadcast`, {username: socket.username})
+    io.to(roomObject.room).emit(`joinRoomBroadcast`, {username: socket.username, room: roomObject.room, id: socket.id})
     socket.currentRoom = roomObject.room
     console.log(`${socket.username} has joined ${socket.currentRoom}`)
   })

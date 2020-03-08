@@ -2,6 +2,19 @@ const express = require('express')
 const historyRoute = express.Router()
 const HistorySchema = require('../models/history')
 
+historyRoute.route('/api/addhistory').post((req, res, next) => {
+    HistorySchema.create(req.body, (error, data) => {
+        if (error) {
+            console.log(`Could not add history because of the following error: ${error}`)
+            return next(error)
+        }
+        else {
+            console.log("added history successfully")
+            res.json(data)
+        }
+    })
+})
+
 historyRoute.route('/api/history').get((req, res, next) => {
     HistorySchema.find((error, data) => {
         if (error){
@@ -12,7 +25,7 @@ historyRoute.route('/api/history').get((req, res, next) => {
             console.log("history retrieved")
             res.json(data)
         }
-    });
+    }).sort({timestamp: descending, date: descending});
 });
 
 historyRoute.route('/api/roomhistory/:roomname').get((req, res, next) => {
@@ -26,7 +39,7 @@ historyRoute.route('/api/roomhistory/:roomname').get((req, res, next) => {
             console.log("history from room retrieved")
             res.json(data)
         }
-    });
+    }).sort({timestamp: descending, date: descending});
 });
 
 module.exports = historyRoute

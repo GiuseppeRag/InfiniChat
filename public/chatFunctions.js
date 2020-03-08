@@ -1,17 +1,17 @@
 $(() => {
     //let socket = io.connect('https://infinichat-application.herokuapp.com/')
     let socket = io.connect('http://localhost:3000/')
-    let socketUsername
+    let socketId
 
     let changeUsername = $("#btnChangeUsername")
     let username = $('#txtUsername')
     let message = $('#txtMessage')
     let sendMessage = $("#btnSendMessage")
     let chatroom = $('#chatroom')
-    let roomOne = $('#roomOne')
-    let roomTwo = $('#roomTwo')
-    let roomThree = $('#roomThree')
-    let roomFour = $('#roomFour')
+    let roomGeneral = $('#roomGeneral')
+    let roomTechnology = $('#roomTechnology')
+    let roomAcademics = $('#roomAcademics')
+    let roomBadJokes = $('#roomBadJokes')
     let toastArea = $('#toastArea')
 
     changeUsername.click(() => {
@@ -23,20 +23,24 @@ $(() => {
         socket.emit('sendMessage', {"message": message.val()})
     })
 
-    socket.on("sendMessage", (messageData) => {  
-        console.log(`${messageData.username} has sent data: ${messageData.message}`)
-        chatroom.append(`<p>${messageData.username}: ${messageData.message}</p>`)
+    socket.on("sendMessageBroadcast", (messageData) => {
+        if (socketId != messageData.id){  
+            chatroom.append(`<p class="h5 p-2"><u>${messageData.username}</u>: ${messageData.message}</p>`)
+        }
+        else {
+            chatroom.append(`<p class="h5 p-2 text-success"><u>${messageData.username}</u>: ${messageData.message}</p>`)
+        }
     })
 
     socket.on('welcome', (user) => {
-        socketUsername = user.username
+        socketId = user.id
         username.val(user.username)
         changeRoomButtonColors('green', 'white', 'white', 'white')
         makeToastMessage('InfiniChat', 'Welcome To InfiniChat!', 'text-success')
     })
 
     socket.on('userLogin', (user) => {
-        if (user.username != socketUsername){
+        if (user.id != socketId){
             makeToastMessage(user.username, "has logged into InfiniChat", 'text-success')
         }
     })
@@ -46,48 +50,54 @@ $(() => {
     })
 
     socket.on('changeUsernameBroadcast', (user) => {
-        if (user.newUsername != socketUsername){
+        if (user.id != socketId){
             makeToastMessage(user.oldUsername, `has changed their name to ${user.newUsername}`)
+        }
+        else {
+            makeToastMessage(user.newUsername, `You have changed your name to ${user.newUsername}`)
         }
     })
 
     socket.on('joinRoomBroadcast', (user) => {
-        if (user.username != socketUsername){
+        if (user.id != socketId){
             makeToastMessage(user.username, "has joined the room", 'text-success')
+        }
+        else {
+            makeToastMessage(user.username, `you are now in room ${user.room}`)
         }
     })
 
     socket.on('leaveRoomBroadcast', (user) => {
-        if (user.username != socketUsername){
+        if (user.id != socketId){
             makeToastMessage(user.username, "has left the room", 'text-warning')
         }
     })
 
-    roomOne.click(() => {
-        socket.emit('joinRoom', {"room": "Room One"})
+    roomGeneral.click(() => {
+        socket.emit('joinRoom', {"room": "General"})
         changeRoomButtonColors('green', 'white', 'white', 'white')
     })
 
-    roomTwo.click(() => {
-        socket.emit('joinRoom', {"room": "Room Two"})
+    roomTechnology.click(() => {
+        socket.emit('joinRoom', {"room": "Technology"})
         changeRoomButtonColors('white', 'green', 'white', 'white')
     })
 
-    roomThree.click(() => {
-        socket.emit('joinRoom', {"room": "Room Three"})
+    roomAcademics.click(() => {
+        socket.emit('joinRoom', {"room": "Academics"})
         changeRoomButtonColors('white', 'white', 'green', 'white')
     })
 
-    roomFour.click(() => {
-        socket.emit('joinRoom', {"room": "Room Four"})
+    roomBadJokes.click(() => {
+        socket.emit('joinRoom', {"room": "Bad Jokes"})
         changeRoomButtonColors('white', 'white', 'white', 'green')
     })
 
     const changeRoomButtonColors = (one, two, three, four) => {
-        roomOne.css('background-color', one)
-        roomTwo.css('background-color', two)
-        roomThree.css('background-color', three)
-        roomFour.css('background-color', four)
+        roomGeneral.css('background-color', one)
+        roomTechnology.css('background-color', two)
+        roomAcademics.css('background-color', three)
+        roomBadJokes.css('background-color', four)
     }
 
     const makeToastMessage = (actor, message, color='') => {
