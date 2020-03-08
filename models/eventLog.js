@@ -3,22 +3,27 @@ const Schema = mongoose.Schema;
 
 const EventLog = new Schema({
         eventName: {
-            type: String
+            type: String,
+            required: true
         },
         description: {
             type: String
         },
         user: {
-            type: String
+            type: String,
+            required: true,
+            default: 'InfiniChat'
         },
         statusCode: {
             type: String
         },
         date: {
-            type: Date
+            type: Date,
+            required: true
         },
         timestamp: {
-            type: Date
+            type: Date,
+            required: true
         }
     },
     {

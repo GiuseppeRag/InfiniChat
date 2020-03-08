@@ -3,19 +3,24 @@ const Schema = mongoose.Schema;
 
 const History = new Schema({
      user: {
-         type: String
+         type: String,
+         required: true
      },
     message: {
-         type: String
+         type: String,
+         required: true
     },
     room: {
-         type: String
+         type: String,
+         required: true
     },
     date: {
-         type: Date
+         type: Date,
+         required: true
     },
     timestamp: {
-         type: Date
+         type: Date,
+         required: true
     }
 },
     {
