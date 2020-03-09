@@ -47,8 +47,8 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).send(err.message);
 });
 
-app.use('/api', historyRoutes);
-app.use('/api', eventLogRoutes);
+app.use('', historyRoutes);
+app.use('', eventLogRoutes);
 
 //Connect mongoose to database
 mongoose.Promise = global.Promise;
@@ -76,21 +76,44 @@ io.on("connection", (socket) => {
     io.sockets.emit('userLogout', {username: socket.username})
   });
 
+  const addHistoryObject = (obj) => {
+    /*
+    HistorySchema.create(req.body, (error, data) => {
+      if (error) {
+          console.log(`Could not add history because of the following error: ${error}`)
+          return next(error)
+      }
+      else {
+          console.log("added history successfully")
+          res.json(data)
+      }
+    })
+  */
+ History.create(obj, function(err, result) {
+  if (err) {
+    console.log(error)
+  } else {
+    console.log(result);
+  }
+});
+  }
+
   //socket message event. broadcasts to room
   socket.on("sendMessage", (data) => {
       io.to(socket.currentRoom).emit("sendMessageBroadcast", {id: socket.id, username: socket.username, message: data.message})
-    /*
       let ts = new Date();
-      let history = new History(socket.username, data.message, socket.currentRoom, ts.getDate(), ts.getTime());
-      axios.post('/api/addHistory', {
+      let history = new History({user: socket.username, message: data.message, room: socket.currentRoom, date: ts.getDate(), timestamp: ts.getTime()});
+      addHistoryObject(history)
+      /*
+      axios.post('/api/addhistory', {
         history
       }).then(function (response) {
         console.log("Success!");
       }).catch(function (error) {
-            console.log("Oh no");
+            console.log("Oh no: " + error);
           });
-     */
-  });
+          */
+      });
 
   //emits to all sockets that a User has changed their username
   socket.on("changeUsername", (userData) => {
