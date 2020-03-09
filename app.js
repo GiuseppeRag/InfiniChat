@@ -1,6 +1,7 @@
 //add the modules
 const http = require('http')
 const url = require('url')
+const axios = require('axios');
 let server;
 const express = require('express')
 //
@@ -30,6 +31,8 @@ server = app.listen(process.env.PORT || 3000)
 //import the routes
 const historyRoutes = require('./routes/history.routes')
 const eventLogRoutes = require('./routes/eventLog.routes')
+const History = require('./models/history');
+
 
 //app error handling
 app.use((req, res, next) => {
@@ -43,6 +46,9 @@ app.use((err, req, res, next) => {
   }
   res.status(err.statusCode).send(err.message);
 });
+
+app.use('/api', historyRoutes);
+app.use('/api', eventLogRoutes);
 
 //Connect mongoose to database
 mongoose.Promise = global.Promise;
@@ -68,12 +74,23 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log(`${socket.username} has Left InfiniChat`)
     io.sockets.emit('userLogout', {username: socket.username})
-  })
+  });
 
   //socket message event. broadcasts to room
   socket.on("sendMessage", (data) => {
       io.to(socket.currentRoom).emit("sendMessageBroadcast", {id: socket.id, username: socket.username, message: data.message})
-  })
+    /*
+      let ts = new Date();
+      let history = new History(socket.username, data.message, socket.currentRoom, ts.getDate(), ts.getTime());
+      axios.post('/api/addHistory', {
+        history
+      }).then(function (response) {
+        console.log("Success!");
+      }).catch(function (error) {
+            console.log("Oh no");
+          });
+     */
+  });
 
   //emits to all sockets that a User has changed their username
   socket.on("changeUsername", (userData) => {
