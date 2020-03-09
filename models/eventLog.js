@@ -17,17 +17,12 @@ const EventLog = new Schema({
         statusCode: {
             type: String
         },
-        date: {
-            type: Date,
-            required: true
-        },
         timestamp: {
-            type: Date,
-            required: true
+            type: Date
         }
     },
     {
         collection: 'eventlog'
-    });
+})
 
 module.exports = mongoose.model('EventLog', EventLog);

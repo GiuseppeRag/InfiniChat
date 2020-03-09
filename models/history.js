@@ -14,17 +14,12 @@ const History = new Schema({
          type: String,
          required: true
     },
-    date: {
-         type: Date,
-         required: true
-    },
     timestamp: {
-         type: Date,
-         required: true
+         type: Date
     }
 },
     {
     collection: 'history'
-    });
+})
 
 module.exports = mongoose.model('History', History);

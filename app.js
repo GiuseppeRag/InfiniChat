@@ -1,13 +1,18 @@
 //add the modules
-const http = require('http')
-const url = require('url')
 let server;
 const express = require('express')
+const nodeFetch = require('node-fetch')
+const fs = require('fs')
+
 //
 const mongoose = require('mongoose')
 let cors = require('cors')
 let bodyParser = require('body-parser')
 let database = require('./db')
+
+//endpoint
+//const endpoint = 'http://localhost:3000'
+const endpoint = 'https://infinichat-application.herokuapp.com'
 
 //setup the app
 const app = express()
@@ -46,6 +51,7 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).send(err.message);
 });
 
+//specifies app routes
 app.use('', historyRoutes);
 app.use('', eventLogRoutes);
 
@@ -69,12 +75,31 @@ io.on("connection", (socket) => {
   io.sockets.emit('userLogin', {username: socket.username, id: socket.id})
   io.to(socket.currentRoom).emit(`joinRoomBroadcast`, {username: socket.username, room: socket.currentRoom, id: socket.id})
   addEventLog("USER_JOINED", `${socket.username} has joined room: ${socket.currentRoom}`, socket.username, "200");
+  nodeFetch(`${endpoint}/api/roomhistory/General`)
+  .then(res => res.json())
+  .then(json => {socket.emit('fillChat', {messages : json, id: socket.id})})
 
   //socket disconnect event
   socket.on("disconnect", () => {
     console.log(`${socket.username} has Left InfiniChat`)
     io.sockets.emit('userLogout', {username: socket.username})
-    addEventLog("USER_DISCONNECT", `${socket.username} has disconnected`, socket.username, "200")
+    addEventLog("USER_DISCONNECT", `${socket.username} has disconnected`, socket.username, "204")
+
+    //clears log file
+    fs.writeFile(`./eventLogs.txt`, "", (err, data) => {
+      if (err){
+        console.log("An error occured clearing the file")
+      }
+    })
+
+    //refills log file with new logs
+    nodeFetch(`${endpoint}/api/eventlog`)
+    .then(res => res.json())
+    .then(json => json.map(event => fs.appendFile('./eventLogs.txt', `${event.eventName} | ${event.description} | ${event.user} | ${event.statusCode} | ${event.timestamp}\n`, (err, data) => {
+      if (err){
+        console.log(`Could not write to file: ${err}`)
+      }
+    })))
   });
 
   //socket message event. broadcasts to room
@@ -82,14 +107,14 @@ io.on("connection", (socket) => {
       io.to(socket.currentRoom).emit("sendMessageBroadcast", {id: socket.id, username: socket.username, message: data.message})
       addHistoryObject(socket.username, data.message, socket.currentRoom);
       addEventLog("SEND_MESSAGE", `${socket.username} sent a message to ${socket.currentRoom}`,
-          socket.username, "200");
+          socket.username, "201");
       });
 
   //emits to all sockets that a User has changed their username
   socket.on("changeUsername", (userData) => {
       console.log(`${socket.username} has change their name to ${userData.username}`)
       io.sockets.emit('changeUsernameBroadcast', {oldUsername: socket.username, newUsername: userData.username, id: socket.id})
-      addEventLog("CHANGE_USERNAME", `${socket.username} changed name to ${userData.username}`, userData.username, "200");
+      addEventLog("CHANGE_USERNAME", `${socket.username} changed name to ${userData.username}`, userData.username, "202");
       socket.username = userData.username
   })
 
@@ -100,47 +125,39 @@ io.on("connection", (socket) => {
     socket.join(roomObject.room)
     io.to(roomObject.room).emit(`joinRoomBroadcast`, {username: socket.username, room: roomObject.room, id: socket.id})
     socket.currentRoom = roomObject.room
+    nodeFetch(`${endpoint}/api/roomhistory/${roomObject.room}`)
+    .then(res => res.json())
+    .then(json => {socket.emit('fillChat', {messages : json, id: socket.id})})
     console.log(`${socket.username} has joined ${socket.currentRoom}`)
-    addEventLog("JOIN", `${socket.username} has joined the ${socket.currentRoom} room`, socket.username, "200");
+    addEventLog("JOIN", `${socket.username} has joined the ${socket.currentRoom} room`, socket.username, "203");
   })
 })
 
+//adds a new History Object
 const addHistoryObject = (user, message, room) => {
-    let ts = new Date()
-    let history = new History({
+    let now = Date.now()
+
+    let historyModel = new History({
         user: user,
         message: message,
         room: room,
-        date: ts.getTime(),
-        timestamp: ts.getTime()
+        timestamp: now
     });
 
-    History.create(history, function(err, result) {
-        if (err) {
-            console.log(error)
-        } else {
-            console.log(result);
-        }
-    });
+    historyModel.save()
 };
 
+//adds a new event Object
 const addEventLog = (name, desc, user, code) => {
-    let ts = new Date()
+  let now = Date.now()
 
-    let event = new EventLog({
-        eventName: name,
-        description: desc,
-        user: user,
-        statusCode: code,
-        date: ts.getTime(),
-        timestamp: ts.getTime()
-    });
+  let eventLogModel = new EventLog({
+    eventName: name,
+    description: desc,
+    user: user,
+    statusCode: code,
+    timestamp: now
+  })
 
-    EventLog.create(event, function(err, result) {
-        if (err) {
-            console.log(error)
-        } else {
-            console.log(result);
-        }
-    });
-};
+  eventLogModel.save()
+}

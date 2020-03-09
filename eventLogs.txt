@@ -1,0 +1,93 @@
+USER_JOINED | User9160 has joined room: General | User9160 | 200 | 2020-03-09T17:24:55.607Z
+USER_JOINED | User751 has joined room: General | User751 | 200 | 2020-03-09T17:28:23.615Z
+USER_DISCONNECT | User4552 has disconnected | User4552 | 204 | 2020-03-09T17:28:57.707Z
+USER_JOINED | User4552 has joined room: General | User4552 | 200 | 2020-03-09T17:28:27.707Z
+USER_JOINED | User5185 has joined room: General | User5185 | 200 | 2020-03-09T17:29:11.947Z
+JOIN | User5185 has joined the Technology room | User5185 | 203 | 2020-03-09T17:29:14.047Z
+JOIN | User5185 has joined the General room | User5185 | 203 | 2020-03-09T17:29:14.493Z
+USER_JOINED | User5587 has joined room: General | User5587 | 200 | 2020-03-09T17:30:18.082Z
+USER_DISCONNECT | User5587 has disconnected | User5587 | 204 | 2020-03-09T17:30:21.113Z
+USER_JOINED | User1780 has joined room: General | User1780 | 200 | 2020-03-09T17:30:21.206Z
+USER_JOINED | User716 has joined room: General | User716 | 200 | 2020-03-09T17:31:55.268Z
+USER_JOINED | User1782 has joined room: General | User1782 | 200 | 2020-03-09T17:32:38.188Z
+USER_DISCONNECT | User1782 has disconnected | User1782 | 204 | 2020-03-09T17:32:38.665Z
+USER_JOINED | User905 has joined room: General | User905 | 200 | 2020-03-09T17:32:40.957Z
+USER_JOINED | User6505 has joined room: General | User6505 | 200 | 2020-03-09T17:32:57.426Z
+USER_DISCONNECT | User6505 has disconnected | User6505 | 204 | 2020-03-09T17:33:02.054Z
+USER_DISCONNECT | User9404 has disconnected | User9404 | 204 | 2020-03-09T17:33:03.860Z
+USER_JOINED | User4275 has joined room: General | User4275 | 200 | 2020-03-09T17:33:09.894Z
+USER_DISCONNECT | User4275 has disconnected | User4275 | 204 | 2020-03-09T17:33:12.370Z
+USER_JOINED | User9404 has joined room: General | User9404 | 200 | 2020-03-09T17:33:02.145Z
+USER_JOINED | User8342 has joined room: General | User8342 | 200 | 2020-03-09T17:33:12.466Z
+USER_DISCONNECT | User8342 has disconnected | User8342 | 204 | 2020-03-09T17:33:25.414Z
+USER_DISCONNECT | User7308 has disconnected | User7308 | 204 | 2020-03-09T17:33:26.545Z
+USER_JOINED | User986 has joined room: General | User986 | 200 | 2020-03-09T17:33:26.628Z
+USER_JOINED | User7308 has joined room: General | User7308 | 200 | 2020-03-09T17:33:25.494Z
+USER_DISCONNECT | User986 has disconnected | User986 | 204 | 2020-03-09T17:33:28.549Z
+USER_JOINED | User7177 has joined room: General | User7177 | 200 | 2020-03-09T17:33:28.663Z
+USER_DISCONNECT | User2758 has disconnected | User2758 | 204 | 2020-03-09T17:34:49.621Z
+USER_JOINED | User2758 has joined room: General | User2758 | 200 | 2020-03-09T17:34:46.450Z
+USER_JOINED | User237 has joined room: General | User237 | 200 | 2020-03-09T17:34:49.739Z
+JOIN | User237 has joined the Technology room | User237 | 203 | 2020-03-09T17:34:51.379Z
+USER_JOINED | User7855 has joined room: General | User7855 | 200 | 2020-03-09T17:35:56.512Z
+JOIN | User237 has joined the General room | User237 | 203 | 2020-03-09T17:34:51.913Z
+USER_DISCONNECT | User7855 has disconnected | User7855 | 204 | 2020-03-09T17:35:58.327Z
+USER_JOINED | User113 has joined room: General | User113 | 200 | 2020-03-09T17:36:49.368Z
+USER_JOINED | User3607 has joined room: General | User3607 | 200 | 2020-03-09T17:36:51.680Z
+USER_DISCONNECT | User113 has disconnected | User113 | 204 | 2020-03-09T17:36:51.457Z
+USER_JOINED | User8239 has joined room: General | User8239 | 200 | 2020-03-09T17:41:25.001Z
+USER_DISCONNECT | User8239 has disconnected | User8239 | 204 | 2020-03-09T17:41:27.923Z
+USER_JOINED | User7167 has joined room: General | User7167 | 200 | 2020-03-09T17:41:28.165Z
+USER_DISCONNECT | User8178 has disconnected | User8178 | 204 | 2020-03-09T17:43:49.951Z
+USER_JOINED | User8178 has joined room: General | User8178 | 200 | 2020-03-09T17:43:47.802Z
+USER_JOINED | User1749 has joined room: General | User1749 | 200 | 2020-03-09T17:43:50.194Z
+USER_DISCONNECT | User5111 has disconnected | User5111 | 204 | 2020-03-09T17:45:33.347Z
+USER_JOINED | User5111 has joined room: General | User5111 | 200 | 2020-03-09T17:45:30.507Z
+USER_JOINED | User3813 has joined room: General | User3813 | 200 | 2020-03-09T17:35:58.465Z
+USER_JOINED | User2119 has joined room: General | User2119 | 200 | 2020-03-09T17:45:33.626Z
+USER_DISCONNECT | User1118 has disconnected | User1118 | 204 | 2020-03-09T17:47:10.887Z
+USER_JOINED | User3912 has joined room: General | User3912 | 200 | 2020-03-09T17:47:30.277Z
+USER_JOINED | User1118 has joined room: General | User1118 | 200 | 2020-03-09T17:47:10.339Z
+USER_JOINED | User8453 has joined room: General | User8453 | 200 | 2020-03-09T17:49:00.008Z
+USER_JOINED | User4727 has joined room: General | User4727 | 200 | 2020-03-09T17:49:03.399Z
+USER_DISCONNECT | User8453 has disconnected | User8453 | 204 | 2020-03-09T17:49:03.265Z
+USER_JOINED | User6017 has joined room: General | User6017 | 200 | 2020-03-09T17:51:51.626Z
+USER_DISCONNECT | User6017 has disconnected | User6017 | 204 | 2020-03-09T17:51:52.732Z
+USER_JOINED | User6159 has joined room: General | User6159 | 200 | 2020-03-09T17:51:52.870Z
+JOIN | User6159 has joined the Technology room | User6159 | 203 | 2020-03-09T17:51:56.167Z
+USER_JOINED | User9685 has joined room: General | User9685 | 200 | 2020-03-09T17:52:45.497Z
+USER_DISCONNECT | User9685 has disconnected | User9685 | 204 | 2020-03-09T17:52:46.426Z
+USER_JOINED | User1444 has joined room: General | User1444 | 200 | 2020-03-09T17:52:46.566Z
+JOIN | User1444 has joined the Technology room | User1444 | 203 | 2020-03-09T17:52:48.102Z
+USER_JOINED | User519 has joined room: General | User519 | 200 | 2020-03-09T17:53:23.920Z
+USER_DISCONNECT | User519 has disconnected | User519 | 204 | 2020-03-09T17:53:24.921Z
+USER_JOINED | User6995 has joined room: General | User6995 | 200 | 2020-03-09T17:53:25.058Z
+JOIN | User6995 has joined the Technology room | User6995 | 203 | 2020-03-09T17:53:26.118Z
+USER_JOINED | User9913 has joined room: General | User9913 | 200 | 2020-03-09T17:53:54.674Z
+USER_DISCONNECT | User9913 has disconnected | User9913 | 204 | 2020-03-09T17:53:56.058Z
+USER_JOINED | User7601 has joined room: General | User7601 | 200 | 2020-03-09T17:53:56.199Z
+JOIN | User7601 has joined the Technology room | User7601 | 203 | 2020-03-09T17:53:57.005Z
+JOIN | User7601 has joined the Academics room | User7601 | 203 | 2020-03-09T17:53:58.267Z
+JOIN | User7601 has joined the General room | User7601 | 203 | 2020-03-09T17:53:59.211Z
+JOIN | User7601 has joined the Bad Jokes room | User7601 | 203 | 2020-03-09T17:54:00.554Z
+JOIN | User7601 has joined the Academics room | User7601 | 203 | 2020-03-09T17:54:03.325Z
+JOIN | User7601 has joined the Technology room | User7601 | 203 | 2020-03-09T17:54:06.755Z
+JOIN | User7601 has joined the General room | User7601 | 203 | 2020-03-09T17:54:07.389Z
+JOIN | User7601 has joined the Technology room | User7601 | 203 | 2020-03-09T17:54:10.347Z
+JOIN | User7601 has joined the Academics room | User7601 | 203 | 2020-03-09T17:54:11.451Z
+USER_JOINED | User8817 has joined room: General | User8817 | 200 | 2020-03-09T17:54:20.063Z
+JOIN | User7601 has joined the General room | User7601 | 203 | 2020-03-09T17:54:27.132Z
+JOIN | User7601 has joined the Technology room | User7601 | 203 | 2020-03-09T17:54:29.733Z
+JOIN | User8817 has joined the Technology room | User8817 | 203 | 2020-03-09T17:54:32.466Z
+USER_DISCONNECT | User7601 has disconnected | User7601 | 204 | 2020-03-09T17:54:34.126Z
+USER_JOINED | User4013 has joined room: General | User4013 | 200 | 2020-03-09T18:06:43.584Z
+USER_JOINED | User9048 has joined room: General | User9048 | 200 | 2020-03-09T18:07:51.515Z
+USER_DISCONNECT | User6893 has disconnected | User6893 | 204 | 2020-03-09T18:08:30.422Z
+USER_JOINED | User6893 has joined room: General | User6893 | 200 | 2020-03-09T18:08:28.112Z
+USER_JOINED | User8500 has joined room: General | User8500 | 200 | 2020-03-09T18:09:05.998Z
+USER_DISCONNECT | User8500 has disconnected | User8500 | 204 | 2020-03-09T18:09:07.284Z
+USER_JOINED | User2552 has joined room: General | User2552 | 200 | 2020-03-09T18:09:55.823Z
+USER_JOINED | User2166 has joined room: General | User2166 | 200 | 2020-03-09T17:33:03.936Z
+USER_DISCONNECT | User2552 has disconnected | User2552 | 204 | 2020-03-09T18:09:57.495Z
+USER_JOINED | User9800 has joined room: General | User9800 | 200 | 2020-03-09T17:28:58.624Z
+USER_DISCONNECT | User751 has disconnected | User751 | 204 | 2020-03-09T17:28:27.550Z
