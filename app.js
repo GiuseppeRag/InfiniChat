@@ -1,7 +1,6 @@
 //add the modules
 const http = require('http')
 const url = require('url')
-const axios = require('axios');
 let server;
 const express = require('express')
 //
@@ -32,7 +31,7 @@ server = app.listen(process.env.PORT || 3000)
 const historyRoutes = require('./routes/history.routes')
 const eventLogRoutes = require('./routes/eventLog.routes')
 const History = require('./models/history');
-
+const EventLog = require('./models/eventLog');
 
 //app error handling
 app.use((req, res, next) => {
@@ -69,56 +68,28 @@ io.on("connection", (socket) => {
   socket.emit('welcome', {username: socket.username, room: socket.currentRoom, id: socket.id})
   io.sockets.emit('userLogin', {username: socket.username, id: socket.id})
   io.to(socket.currentRoom).emit(`joinRoomBroadcast`, {username: socket.username, room: socket.currentRoom, id: socket.id})
+  addEventLog("USER_JOINED", `${socket.username} has joined room: ${socket.currentRoom}`, socket.username, "200");
 
   //socket disconnect event
   socket.on("disconnect", () => {
     console.log(`${socket.username} has Left InfiniChat`)
     io.sockets.emit('userLogout', {username: socket.username})
+    addEventLog("USER_DISCONNECT", `${socket.username} has disconnected`, socket.username, "200")
   });
-
-  const addHistoryObject = (obj) => {
-    /*
-    HistorySchema.create(req.body, (error, data) => {
-      if (error) {
-          console.log(`Could not add history because of the following error: ${error}`)
-          return next(error)
-      }
-      else {
-          console.log("added history successfully")
-          res.json(data)
-      }
-    })
-  */
- History.create(obj, function(err, result) {
-  if (err) {
-    console.log(error)
-  } else {
-    console.log(result);
-  }
-});
-  }
 
   //socket message event. broadcasts to room
   socket.on("sendMessage", (data) => {
       io.to(socket.currentRoom).emit("sendMessageBroadcast", {id: socket.id, username: socket.username, message: data.message})
-      let ts = new Date();
-      let history = new History({user: socket.username, message: data.message, room: socket.currentRoom, date: ts.getDate(), timestamp: ts.getTime()});
-      addHistoryObject(history)
-      /*
-      axios.post('/api/addhistory', {
-        history
-      }).then(function (response) {
-        console.log("Success!");
-      }).catch(function (error) {
-            console.log("Oh no: " + error);
-          });
-          */
+      addHistoryObject(socket.username, data.message, socket.currentRoom);
+      addEventLog("SEND_MESSAGE", `${socket.username} sent a message to ${socket.currentRoom}`,
+          socket.username, "200");
       });
 
   //emits to all sockets that a User has changed their username
   socket.on("changeUsername", (userData) => {
       console.log(`${socket.username} has change their name to ${userData.username}`)
       io.sockets.emit('changeUsernameBroadcast', {oldUsername: socket.username, newUsername: userData.username, id: socket.id})
+      addEventLog("CHANGE_USERNAME", `${socket.username} changed name to ${userData.username}`, userData.username, "200");
       socket.username = userData.username
   })
 
@@ -130,5 +101,46 @@ io.on("connection", (socket) => {
     io.to(roomObject.room).emit(`joinRoomBroadcast`, {username: socket.username, room: roomObject.room, id: socket.id})
     socket.currentRoom = roomObject.room
     console.log(`${socket.username} has joined ${socket.currentRoom}`)
+    addEventLog("JOIN", `${socket.username} has joined the ${socket.currentRoom} room`, socket.username, "200");
   })
 })
+
+const addHistoryObject = (user, message, room) => {
+    let ts = new Date()
+    let history = new History({
+        user: user,
+        message: message,
+        room: room,
+        date: ts.getTime(),
+        timestamp: ts.getTime()
+    });
+
+    History.create(history, function(err, result) {
+        if (err) {
+            console.log(error)
+        } else {
+            console.log(result);
+        }
+    });
+};
+
+const addEventLog = (name, desc, user, code) => {
+    let ts = new Date()
+
+    let event = new EventLog({
+        eventName: name,
+        description: desc,
+        user: user,
+        statusCode: code,
+        date: ts.getTime(),
+        timestamp: ts.getTime()
+    });
+
+    EventLog.create(event, function(err, result) {
+        if (err) {
+            console.log(error)
+        } else {
+            console.log(result);
+        }
+    });
+};
